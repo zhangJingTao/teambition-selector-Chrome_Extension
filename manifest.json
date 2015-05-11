@@ -1,0 +1,23 @@
+{
+  "name": "teambition_selector",
+  "description":"teambition网站上的任务列表获取工具",
+  "version": "1.0",
+  "permissions": [
+    "activeTab"
+  ],
+  "background": {
+	"page": "background.html",
+    "persistent": false
+  },
+  "icons":{"16":"icon_16.png","48":"icon_48.png","128":"icon_128.png"},
+  "browser_action": {
+    "default_title": "obtain_teambition_data"
+  },
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["https://www.teambition.com/*"],
+      "js": ["jquery-1.7.1.js", "content.js"]
+    }
+  ]
+}
