@@ -8,7 +8,9 @@ chrome.runtime.onMessage.addListener(  function(request, sender, sendResponse) {
 		  sendResponse(
 		  {
 			  kws: ids,
-			  count: document.getElementsByClassName("scrum-stage").length
+			  count: document.getElementsByClassName("scrum-stage").length,
+			  lock_count:document.getElementsByClassName("locked-stage").length,
+			  uid:window.location.href.split("\/")[4]
 		  }); 
 	  }
 });

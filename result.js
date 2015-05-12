@@ -1,5 +1,6 @@
-$(document).ready(function(){
+﻿$(document).ready(function(){
 	var count = getQueryString("count");
+	var uid = getQueryString("uid");
 	var baseHtml = "";
 	for(var i=0;i<count;i++){
 		var url = getCookie(i);
@@ -21,14 +22,38 @@ $(document).ready(function(){
 						baseHtml += '</table><hr>';
 				   },
 				   failure:function (result) {   
-					   alert('/(��o��)/~~��ȡ����ʧ��..');   
+					   alert('获取数据失败...');   
 				   },  
 		});
 	}
+	var lockedUrl = "https://www.teambition.com/api/projects/"+uid+"/archives?objectType=task&count=100&page=1&_="+new Date().getTime();
+	$.ajax({
+				   type:"GET",  
+				   url:lockedUrl,
+				   dataType:"json",
+				   async:false,
+				   success:function(data){   //function1()  
+						baseHtml += '<h3>最近的100条归档记录...</h3><hr><table id="baseTable"><tr><td>Title</td><td>归档时间</td><td>creator</td></tr>';
+						$.each(data,function(inx,ele){
+							baseHtml += '<tr>';
+							baseHtml += '<td>'+ele.subTitle+'</td>';
+							baseHtml += '<td>'+new Date(ele.created).format("yyyy-MM-dd")+"</td>";
+							baseHtml += '<td>'+ele.creator.name+"</td>";
+							baseHtml += '</tr>';
+						})
+						baseHtml += '</table><hr>';
+				   },
+				   failure:function (result) {   
+					   alert('获取数据失败...');   
+				   },  
+	});
+	
+	
+	
 	$("body").html(baseHtml);
 })
 
-//��ȡcookies 
+//获取cookies 
 function getCookie(name){ 
     var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
     if(arr=document.cookie.match(reg))

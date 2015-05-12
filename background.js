@@ -7,13 +7,15 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 			console.log(response);
 			if(response == undefined) alert("请确认在teambition的任务版页操作");
 			var count = response.count;
+			var lock_count = response.lock_count;
 			var ids = response.kws;
+			var uid = response.uid;
 			var url1 = "https://www.teambition.com/api/stages/{ID}/tasks?isDone=false&count=100&page=1&_stageId={ID}&_="+new Date().getTime();
 			var url2 = "https://www.teambition.com/api/stages/{ID}/tasks?isDone=true&count=100&page=1&_stageId={ID}&_="+new Date().getTime();
 			for(var i=0;i<count;i++){
 				var id = ids[i];
 				var url = url1.replace(new RegExp(/({ID})/g),id);
-				if( i == (count-1)){
+				if( i == (count-1)&&lock_count==1){
 					url = url2.replace(new RegExp(/({ID})/g),id);
 				}
 				setCookie(i,url);
@@ -30,7 +32,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 				   },  
 				});*/
 			}
-			window.open("popup.html?count="+count);
+			window.open("popup.html?count="+count+"&uid="+uid);
 			}); 
 		});
 	}catch(e){
